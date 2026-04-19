@@ -9,6 +9,8 @@ import whisper
 import os
 import re
 import argparse
+import threading
+import time
 from difflib import SequenceMatcher
 
 
@@ -87,16 +89,29 @@ def generate_lrc(audio_path, output_lrc_path=None, model_name=None, threshold=0.
     # 自动选择模型：有 TXT 用 base，否则用 medium
     if model_name is None:
         model_name = 'base' if has_txt else 'medium'
-        print(f"🎯 自动选择模型: {model_name}")
     
-    # 加载 Whisper 模型
-    print("📦 正在加载 Whisper 模型...")
+    print(f"📦 正在加载 Whisper [{model_name.upper()}] 模型...")
     model = whisper.load_model(model_name)
-    print("✅ 模型加载完成")
+    print(f"✅ [{model_name.upper()}] 模型加载完成")
     
-    # 识别整首歌
-    print("🎤 正在识别音频...")
+    # 识别整首歌（带动态动画）
+    stop_anim = threading.Event()
+    
+    def anim():
+        frames = ['>>>', '>>>', '>>>']
+        i = 0
+        print("🎤 正在识别音频... ", end='', flush=True)
+        while not stop_anim.is_set():
+            print(f"\r🎤 正在识别音频... {frames[i % 3]}", end='', flush=True)
+            i += 1
+            time.sleep(0.5)
+        print(f"\r🎤 识别完成！{' '*10}")
+    
+    anim_thread = threading.Thread(target=anim)
+    anim_thread.start()
     result = model.transcribe(audio_path, language='zh', fp16=False)
+    stop_anim.set()
+    anim_thread.join()
     
     # 收集识别结果
     whisper_lines = []
@@ -165,9 +180,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Whisper 识别 + TXT 对比纠错生成 LRC')
     parser.add_argument('audio_path', nargs='?', default='test_song.mp3', help='音频文件路径')
     parser.add_argument('-o', '--output', default=None, help='输出LRC文件路径 (默认: 与输入文件同名)')
-    parser.add_argument('-m', '--model', default='base', 
+    parser.add_argument('-m', '--model', default=None, 
                         choices=['tiny', 'base', 'small', 'medium', 'large'],
-                        help='Whisper 模型大小 (默认: base)')
+                        help='Whisper 模型大小 (无则自动选择)')
     parser.add_argument('-t', '--threshold', type=float, default=0.6, 
                         help='相似度阈值 (默认: 0.6, 低于此值保留 Whisper 结果)')
     

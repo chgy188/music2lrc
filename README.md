@@ -6,7 +6,7 @@
 
 - Whisper 端到端语音识别，无需 VAD 检测
 - 支持同名TXT 歌词对比校正，相似度匹配过滤幻觉片段，模型可用tiny / base
-- 如无txt歌词，建议用midium以上模型
+- 如无txt歌词，建议用medium以上模型
 - 自动过滤无效片段（no_speech_prob > 0.6 且文字 < 5字）
 - 支持命令行参数配置
 
