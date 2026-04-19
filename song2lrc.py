@@ -123,7 +123,7 @@ def generate_lrc(audio_path, output_lrc_path=None, model_name='base', threshold=
         whisper_kept = sum(1 for x in aligned if x['source'] == 'whisper')
         print(f"✅ 纠错完成: TXT 替换 {txt_replaced} 行, Whisper 保留 {whisper_kept} 行")
     else:
-        aligned = [{'start': x['start'], 'end': x['end'], 'text': x['text'], 'source': 'whisper'} 
+        aligned = [{'start': x['start'], 'end': x['end'], 'text': x['text'], 'source': 'whisper', 'similarity': 1.0} 
                    for x in whisper_lines]
     
     # 生成 LRC
