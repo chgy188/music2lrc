@@ -170,12 +170,13 @@ if __name__ == "__main__":
     
     audio_file = args.audio_path
     
-    # 自动生成输出文件名
+    # 自动生成输出文件名（与音乐文件同目录）
     if args.output:
         output_lrc = args.output
     else:
+        audio_dir = os.path.dirname(os.path.abspath(audio_file))
         base_name = os.path.splitext(os.path.basename(audio_file))[0]
-        output_lrc = f"{base_name}.lrc"
+        output_lrc = os.path.join(audio_dir, f"{base_name}.lrc")
     
     if os.path.exists(audio_file):
         generate_lrc(audio_file, output_lrc, args.model, args.threshold)
