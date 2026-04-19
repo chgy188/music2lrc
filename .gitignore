@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Test files
+test_song.*
+!test_song.mp3
+!test_song.txt

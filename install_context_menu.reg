@@ -1,0 +1,28 @@
+Windows Registry Editor Version 5.00
+
+; Generate LRC from audio files - Right click menu
+; Double-click to import
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.mp3\shell\GenerateLRC]
+@="Generate LRC Lyrics"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.mp3\shell\GenerateLRC\command]
+@="cmd /c cd /d \"D:\\gy\\projects\\VAD\" & python song2lrc.py \"%1\""
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.wav\shell\GenerateLRC]
+@="Generate LRC Lyrics"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.wav\shell\GenerateLRC\command]
+@="cmd /c cd /d \"D:\\gy\\projects\\VAD\" & python song2lrc.py \"%1\""
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.m4a\shell\GenerateLRC]
+@="Generate LRC Lyrics"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.m4a\shell\GenerateLRC\command]
+@="cmd /c cd /d \"D:\\gy\\projects\\VAD\" & python song2lrc.py \"%1\""
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.flac\shell\GenerateLRC]
+@="Generate LRC Lyrics"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.flac\shell\GenerateLRC\command]
+@="cmd /c cd /d \"D:\\gy\\projects\\VAD\" & python song2lrc.py \"%1\""
