@@ -69,7 +69,7 @@ def align_and_replace(whisper_lines, txt_lines, threshold=0.6):
     return result
 
 
-def generate_lrc(audio_path, output_lrc_path=None, model_name='base', threshold=0.6):
+def generate_lrc(audio_path, output_lrc_path=None, model_name=None, threshold=0.6):
     print(f"🚀 正在处理: {audio_path}")
     
     # 检查是否有同名 TXT 文件
@@ -83,6 +83,11 @@ def generate_lrc(audio_path, output_lrc_path=None, model_name='base', threshold=
     else:
         txt_lines = []
         print("📄 未发现同名 TXT 文件")
+    
+    # 自动选择模型：有 TXT 用 base，否则用 medium
+    if model_name is None:
+        model_name = 'base' if has_txt else 'medium'
+        print(f"🎯 自动选择模型: {model_name}")
     
     # 加载 Whisper 模型
     print("📦 正在加载 Whisper 模型...")
